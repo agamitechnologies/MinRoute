@@ -1,0 +1,12 @@
+{
+    "name": "min-route",
+    "version": "1.0.0",
+    "license": "MIT",
+    "repository": "agamitechnologies/MinRoute",
+    "main": "index.js",
+    "keywords": [
+        "routes",
+        "rest-api",
+        "min-route"
+    ]
+}
