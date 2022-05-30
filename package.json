@@ -1,6 +1,6 @@
 {
     "name": "min-route",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "A simple and lightweight library to manage server side routes.",
     "license": "MIT",
     "repository": "agamitechnologies/MinRoute",
