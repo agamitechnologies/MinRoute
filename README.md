@@ -1,4 +1,7 @@
 # min-route
+![npm](https://img.shields.io/npm/v/min-route)
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/min-route)
+[![install size](https://packagephobia.com/badge?p=min-route)](https://packagephobia.com/result?p=min-route)
 
 * [Installation](#install)
 * [Basic Usage](#basic-usage)
