@@ -3,6 +3,7 @@
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/min-route)
 [![install size](https://packagephobia.com/badge?p=min-route)](https://packagephobia.com/result?p=min-route)
 
+* [Description](#description)
 * [Installation](#install)
 * [Basic Usage](#basic-usage)
     * [Server Index File](#server-index-file)
@@ -11,6 +12,8 @@
 * [Advanced Usage](#advanced-usage)
 * [License](#license)
 
+## Description
+A simple and lightweight library to manage server side routes. It uses only 4 routes for whole project. It is based on Rest API and it is not a replacement of GraphQL but similar to it
 
 ## Install
 ```sh
@@ -21,48 +24,50 @@ $ npm i min-route
 ### Server index file
 ```sh
 const express = require('express');
-const MinRoute = require('min-route')
+const minRoute = require('min-route')
 
 const app = express();
 
-MinRoute.api(app, [<path of controller file 1>, <path of controller file 2>, ...... <path of controller file n>])
+minRoute.api(app, [<path of controller file 1>, <path of controller file 2>, ...... <path of controller file n>])
 
 app.listen(<port-number>, () => {});
 ```
 ### Controller file
-add the name of the controller in all your controller file's first line.
+Add the name of the controller in all your controller file's first line.
 
 ```sh
 Syntax - /** @controller = <name> **/
 ```
-example
+Example-
 ```sh
-/** @controller = control1 * */
+/** @controller = controller001 **/
+
+//require all the libraries below @controller line
 const someLibrary = require('some-library');
 
 
-const funtion1 = async (req, res) => {
-    console.log('funtion1')
-    return res.status(200).send({status: 0, message: "Messages"});
+const getUser = async (req, res) => {
+  //your logic here
+    return res.status(200).send({message: "Message"});
 }
 
-const function2 = async (req, res) => {
-    console.log('function2')
-    return res.status(200).send({status: 0, message: "Messages"});
+const postUser = async (req, res) => {
+  //your logic here
+    return res.status(200).send({message: "Message"});
 
 }
 
 module.exports = {
-    funtion1,
-    function2
+    getUser,
+    postUser
 }
 ```
 ### Function call from client side
 
 Here- \
 3000 is the server's port number \
-control1 is name of controller file which we defined in server's controller file \
-function 1 is the function defined in the controller file \
+controller001 is name of controller file which we defined in server's controller file \
+getUser is the function defined in the controller file \
 {"param1":"value1", "param2": "value2"} is the object of paramters
 
 ### Note -
@@ -71,14 +76,31 @@ function 1 is the function defined in the controller file \
 
 
 ```sh
+let baseUrl = "http://localhost:3000/";
+let config = {
+	serverFunction:"controller001.getUser/",
+  //seperate the controller name and the function name with a dot
+	params: {"param1":"value1", "param2": "value2"},
+  //parameters should be in an object
+	method: "GET"
+  }
 let reqOptions = {
-  url: "http://localhost:3000/control1.function1/{"param1":"value1", "param2": "value2"}",
-  method: "GET", // or POST/PUT/DELETE
+  url: config.baseUrl + config.serverFunction + config.params,
+  method: config.method
   headers: headersList,
   data: bodyContent,
 }
 
 axios.request(reqOptions).then(function (response) {
+  console.log(response.data);
+})
+```
+### Shorthand
+```sh
+axios.request(url: "http://localhost:3000/controller001.getUser/{"param1":"value1", "param2": "value2"}",
+  method: "GET"
+  headers: headersList,
+  data: bodyContent,).then(function (response) {
   console.log(response.data);
 })
 ```
@@ -92,14 +114,32 @@ From Client side send middleware array in the parameter object like this-
 2. seperate controller name and function name with a dot (.)
 
 ```sh
+let baseUrl = "http://localhost:3000/";
+let config = {
+	serverFunction:"controller001.postUser/",
+  //seperate the controller name and the function name with a dot
+	params: {"param1":"value1", "param2": "value2", "middleware": ["controller002.multerFunction", "controller003.authenticateFunction"]},
+  //add a middleware key and pass the middleware functions in an array.
+  //seperate the controller name and function name with a dot.
+	method: "POST"
+  }
 let reqOptions = {
-  url: "http://localhost:3000/control1.testConttroller/{"param1":"value1", "param2": "value2", "middleware": ["control2.multerFunction", "control3.authenticateFunction"]}",
-  method: "GET", // or POST/PUT/DELETE
+  url: config.baseUrl + config.serverFunction + config.params,
+  method: config.method
   headers: headersList,
   data: bodyContent,
 }
 
 axios.request(reqOptions).then(function (response) {
+  console.log(response.data);
+})
+```
+### Shorthand
+```sh
+axios.request(url: "http://localhost:3000/controller001.postUser/{"param1":"value1", "param2": "value2", "middleware": ["controller002.multerFunction", "controller003.authenticateFunction"]}",
+  method: "POST", // or GET/PUT/DELETE
+  headers: headersList,
+  data: bodyContent,).then(function (response) {
   console.log(response.data);
 })
 ```
