@@ -23,7 +23,6 @@ const api = async function (app, constant) {
         throw new TypeError("Seperate controller name and function name with a dot")
       }
       let cacheObj = NodeCache.get("controllers")
-      console.log("🚀 ~ file: index.js ~ line 27 ~ controllerFunction ~ cacheObj", cacheObj)
       let data = Object.keys(cacheObj).filter(key => key == req.params.functionName.split('.')[0])[0];
       if (!data) {
         throw new TypeError("Controller paramter does not match with any controller")
