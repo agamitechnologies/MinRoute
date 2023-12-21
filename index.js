@@ -58,7 +58,7 @@ const api = async function (app, constant) {
     } catch (err) {
       console.error(err)
     }
-    next()
+    // next()
   }
   // Routes
   app.get('/:functionName/:payload?', customMiddleware, controllerFunction);
